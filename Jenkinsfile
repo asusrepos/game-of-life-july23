@@ -10,9 +10,6 @@ pipeline {
     tools {
         jdk 'JAVA_8'
     }
-    parameters {
-            choice(name: "GOAL", choices: ['package', 'install', 'clean package', 'clean install'], description: 'thi is maven goal')
-    }
     stages {
         stage('git') {
             steps {
@@ -22,13 +19,25 @@ pipeline {
         }
         stage('package') {
             steps {
-                sh script: "mvn ${params.GOAL}"
+                sh script: "mvn clean package"
             }
         }
         stage('report') {
              steps {
                 junit testResults: '**//surefire-reports/TEST-*.xml'
             }
+        }
+    }
+    post {
+        success {
+         mail subject: '${JOB_NAME}: has completed with success',
+        body: 'your project is effective \n build url ${BUILD_URL}',
+          to: 'all@qt.com'
+        }
+         failure {
+         mail subject: 'has completed with failure',
+         body: 'your project is defective \n build url ${BUILD_URL}',
+         to: 'all@qt.com'
         }
     }
 }  
