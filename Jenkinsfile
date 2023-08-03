@@ -11,7 +11,7 @@ pipeline {
         jdk 'JAVA_8'
     }
     parameters {
-            choice(name: GOAL, choices: ['package', 'install', 'clean install', 'clean install'])
+            choice(name: GOAL, choices: ['package', 'install', 'clean install', 'clean install'], description: 'thi is maven goal')
     }
     stages {
         stage('git') {
@@ -22,7 +22,7 @@ pipeline {
         }
         stage('package') {
             steps {
-                sh script: 'mvn clean package'
+                sh script: "mvn params.GOAL"
             }
         }
         stage('report') {
@@ -33,7 +33,7 @@ pipeline {
     }
      post {
          success {
-         mail subject: 'has completed with success',
+         mail subject: '${JOB_NAME}: has completed with success',
         body: 'your project is effective \n build url ${BUILD_URL}',
           to: 'all@qt.com'
         }
