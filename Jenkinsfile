@@ -27,7 +27,8 @@ pipeline {
                 junit testResults: '**//surefire-reports/TEST-*.xml'
             }
         }
-        post {
+    }
+     post {
          success {
          mail subject: 'has completed with success',
         body: 'your project is effective \n build url ${BUILD_URL}',
@@ -38,6 +39,5 @@ pipeline {
          body: 'your project is defective \n build url ${BUILD_URL}',
          to: 'all@qt.com'
         }
-    }
-    }
+     }
 }
