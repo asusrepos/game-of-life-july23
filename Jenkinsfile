@@ -10,6 +10,9 @@ pipeline {
     tools {
         jdk 'JAVA_8'
     }
+    parameters {
+            choice(name: GOAL, choices: ['package', 'install', 'clean install', 'clean install'])
+    }
     stages {
         stage('git') {
             steps {
@@ -39,5 +42,5 @@ pipeline {
          body: 'your project is defective \n build url ${BUILD_URL}',
          to: 'all@qt.com'
         }
-     }
+    }
 }
