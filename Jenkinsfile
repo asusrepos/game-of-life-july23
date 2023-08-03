@@ -14,7 +14,7 @@ pipeline {
         stage('git') {
             steps {
                 git url: 'https://github.com/asusrepos/game-of-life-july23.git',
-                git branch: 'master'
+                branch: 'master'
             }
         }
         stage('package') {
